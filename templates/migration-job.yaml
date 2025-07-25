@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migration-job
+  annotations:
+    "argocd.argoproj.io/hook": PreSync
+    "argocd.argoproj.io/hook-delete-policy": HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migration
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Running migration logic...";
+              sleep 5;
+              echo "done" > /done/complete;
+              echo "Migration done."
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /done
+
+        - name: sidecar
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Sidecar waiting...";
+              while [ ! -f /done/complete ]; do sleep 1; done;
+              echo "Migration done, sidecar exiting."
+          volumeMounts:
+            - name: shared-volume
+              mountPath: /done
+
+      volumes:
+        - name: shared-volume
+          emptyDir: {}
