@@ -35,3 +35,5 @@ jobs:
       - name: Push Helm chart to Docker Hub OCI registry
         run: |
           helm push packaged/*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
+
+          
