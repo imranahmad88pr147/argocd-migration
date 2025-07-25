@@ -29,8 +29,8 @@ jobs:
       - name: Package Helm chart
         run: |
           helm dependency update .
-          helm package .
+          helm package . --destination packaged
 
       - name: Push Helm chart to Docker Hub
         run: |
-          helm push myapp-chart-*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
+          helm push packaged/*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
