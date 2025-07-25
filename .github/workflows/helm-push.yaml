@@ -4,9 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'DAY 14/Chart.yaml'
-      - 'DAY 14/values.yaml'
-      - 'DAY 14/templates/**'
+      - 'Chart.yaml'
+      - 'values.yaml'
+      - 'templates/**'
       - '.github/workflows/helm-push.yaml'
 
 jobs:
@@ -27,13 +27,10 @@ jobs:
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | helm registry login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin registry-1.docker.io
 
       - name: Package Helm chart
-        working-directory: "./DAY-14"
         run: |
           helm dependency update .
           helm package .
 
       - name: Push Helm chart to Docker Hub
-        working-directory: "./DAY-14"
         run: |
           helm push myapp-chart-*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
-
