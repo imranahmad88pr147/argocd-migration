@@ -22,17 +22,16 @@ jobs:
         with:
           version: v3.13.0
 
-      - name: Login to Docker Hub (for Helm OCI push)
+      - name: Log in to Docker Hub for OCI push
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | helm registry login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin registry-1.docker.io
 
       - name: Package Helm chart
         run: |
+          mkdir -p packaged
           helm dependency update .
           helm package . --destination packaged
 
-      - name: Push Helm chart to Docker Hub
+      - name: Push Helm chart to Docker Hub OCI registry
         run: |
           helm push packaged/*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
-
-          
