@@ -36,3 +36,5 @@ jobs:
         working-directory: "./DAY 14"
         run: |
           helm push myapp-chart-*.tgz oci://registry-1.docker.io/${{ secrets.DOCKERHUB_USERNAME }}/charts
+
+          
