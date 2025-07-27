@@ -39,3 +39,5 @@ jobs:
       - name: Push Helm chart to GHCR
         run: |
           helm push packaged/*.tgz oci://ghcr.io/imranahmad88pr147/charts
+
+          
