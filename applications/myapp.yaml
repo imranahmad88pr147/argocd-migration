@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: oci://ghcr.io/imranahmad88pr147/charts
+    chart: myapp-chart
+    targetRevision: 0.1.0
+    helm:
+      values: |
+        replicaCount: 2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: myapp
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
