@@ -27,3 +27,4 @@ jobs:
       - name: Lint Helm chart
         run: |
           helm lint .
+          
