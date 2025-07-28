@@ -6,7 +6,7 @@ on:
     paths:
       - 'templates/Chart.yaml'
       - 'templates/values.yaml'
-      - 'templates/templates/**'
+      - 'templates/**'
       - '.github/workflows/helm-push.yaml'
 permissions:
   contents: read
