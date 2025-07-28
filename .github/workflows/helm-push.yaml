@@ -1,20 +1,19 @@
-name: Build and Push Helm Chart to GHCR
+name: Validate Helm Chart
 
 on:
   push:
     branches: [main]
     paths:
-      - 'Chart.yaml'
-      - 'values.yaml'
-      - 'templates/**'
+      - 'myapp/Chart.yaml'
+      - 'myapp/values.yaml'
+      - 'myapp/templates/**'
       - '.github/workflows/helm-push.yaml'
 
 permissions:
-  packages: write
   contents: read
 
 jobs:
-  push-helm-chart:
+  validate-helm:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,18 +25,6 @@ jobs:
         with:
           version: v3.13.0
 
-      - name: Log in to GHCR
+      - name: Lint Helm chart
         run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Package Helm chart
-        run: |
-          mkdir -p packaged
-          helm dependency update .
-          helm package . --destination packaged
-
-      - name: Push Helm chart to GHCR
-        run: |
-          helm push packaged/*.tgz oci://ghcr.io/imranahmad88pr147/charts
-
-          
+          helm lint myapp
