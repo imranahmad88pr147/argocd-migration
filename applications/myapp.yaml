@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/imranahmad88pr147/argocd-migration
     targetRevision: main
-    path: myapp
+    path: .
     helm:
       valueFiles:
         - values.yaml
