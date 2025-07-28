@@ -4,9 +4,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'myapp/Chart.yaml'
-      - 'myapp/values.yaml'
-      - 'myapp/templates/**'
+      - 'templates/Chart.yaml'
+      - 'templates/values.yaml'
+      - 'templates/templates/**'
       - '.github/workflows/helm-push.yaml'
 
 permissions:
@@ -27,4 +27,4 @@ jobs:
 
       - name: Lint Helm chart
         run: |
-          helm lint myapp
+          helm lint templates
